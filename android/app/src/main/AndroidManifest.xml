@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.elearning_portal">
    <application
-        android:label="eLearning Portal"
+        android:label="eLearning Platform"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

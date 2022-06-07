@@ -6,54 +6,50 @@ Module: 1.0
 Date Created: 5-31-2022
 */
 
-// ignore_for_file: prefer_const_constructors_in_immutables
+// ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'package:elearning_portal/model/schooldirct.dart';
+import 'package:elearning_portal/model/news.dart';
+import 'package:elearning_portal/pages/news/newsarticle.dart';
 
-class Directory extends StatefulWidget {
-  final SchoolDirct? dirct;
-  // ignore: use_key_in_widget_constructors
-  Directory({this.dirct});
-
+class NewsArchieve extends StatefulWidget {
   @override
-  DirectoryState createState() => DirectoryState();
+  NewsArchieveState createState() => NewsArchieveState();
 }
 
-class DirectoryState extends State<Directory> {
-  Future<List<SchoolDirct>>? dirct;
-  final dirctListKey = GlobalKey<DirectoryState>();
+class NewsArchieveState extends State<NewsArchieve> {
+  Future<List<News>>? news;
+  final newsListKey = GlobalKey<NewsArchieveState>();
 
   @override
   void initState() {
     super.initState();
-    dirct = getDirct();
+    news = getNewsList();
   }
 
-  Future<List<SchoolDirct>> getDirct() async {
-    var url =
-        'https://elearningmarikina.ph/web_mobile/API/ver_1.0.0/schools_directory.php';
+  Future<List<News>> getNewsList() async {
+    var url = 'https://elearningmarikina.ph/web_mobile/API/ver_1.0.0/news.php';
     http.Response response = await http.get(Uri.parse(url));
     final items = json.decode(response.body).cast<Map<String, dynamic>>();
-    List<SchoolDirct> dirct = items.map<SchoolDirct>((json) {
-      return SchoolDirct.fromJson(json);
+    List<News> news = items.map<News>((json) {
+      return News.fromJson(json);
     }).toList();
 
-    return dirct;
+    return news;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      key: dirctListKey,
+      key: newsListKey,
       appBar: AppBar(
         leadingWidth: 25,
         title: const Text(
-          'Schools Directory',
+          'News Archieves',
           style: TextStyle(fontSize: 18),
         ),
       ),
@@ -120,13 +116,13 @@ class DirectoryState extends State<Directory> {
                         children: const <Widget>[
                           Icon(
                             Icons.event_note,
-                            color: Colors.blue,
+                            color: Colors.black54,
                             size: 30,
                           ),
                           Text(
                             'Directory',
                             style: TextStyle(
-                              color: Colors.blue,
+                              color: Colors.black54,
                               fontSize: 12,
                             ),
                           ),
@@ -187,13 +183,13 @@ class DirectoryState extends State<Directory> {
                         children: const <Widget>[
                           Icon(
                             Icons.article,
-                            color: Colors.black54,
+                            color: Colors.blue,
                             size: 30,
                           ),
                           Text(
                             'News',
                             style: TextStyle(
-                              color: Colors.black54,
+                              color: Colors.blue,
                               fontSize: 12,
                             ),
                           ),
@@ -208,8 +204,8 @@ class DirectoryState extends State<Directory> {
         ),
       ),
       body: Center(
-        child: FutureBuilder<List<SchoolDirct>>(
-          future: dirct,
+        child: FutureBuilder<List<News>>(
+          future: news,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData) {
               return const CircularProgressIndicator();
@@ -218,65 +214,123 @@ class DirectoryState extends State<Directory> {
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   var data = snapshot.data![index];
-                  var sl = data.sl;
+                  var pic = data.pic;
                   return Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+                          padding: const EdgeInsets.all(10),
+                          child: Text(
+                            data.dateposted,
+                            textAlign: TextAlign.left,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(10),
                           child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Column(children: [
-                                Container(
-                                  padding: EdgeInsets.zero,
-                                  width: 50,
-                                  height: 50,
-                                  child: Image.network(
-                                    'https://www.elearningmarikina.ph/web_mobile/images/school_logo/$sl',
-                                  ),
+                              Expanded(
+                                flex: 1,
+                                child: Image.network(
+                                  'https://www.elearningmarikina.ph/web_mobile/images/news/thumbnails/$pic',
+                                  height: 100,
+                                  width: 100,
+                                  fit: BoxFit.cover,
                                 ),
-                              ]),
+                              ),
                               const SizedBox(
                                 width: 10,
                               ),
-                              Column(children: [
-                                Container(
-                                  width: 280,
-                                  padding: EdgeInsets.zero,
-                                  child: Text(
-                                    data.school,
-                                    textAlign: TextAlign.left,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.black54,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: 280,
-                                  padding: EdgeInsets.zero,
-                                  child: Text(
-                                    data.phone,
-                                    textAlign: TextAlign.left,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontStyle: FontStyle.italic,
-                                      color: Colors.black45,
-                                    ),
-                                  ),
-                                ),
-                              ]),
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        data.newstitle,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 4,
+                                        textAlign: TextAlign.left,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                    ]),
+                              ),
                             ],
                           ),
                         ),
-                        const Divider(
-                          height: 0,
-                          color: Colors.grey,
+                        Container(
+                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                          child: Text(
+                            data.author,
+                            textAlign: TextAlign.left,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                          child: Text(
+                            data.newscontent,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 3,
+                            textAlign: TextAlign.left,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.zero,
+                                child: TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                NewsArticle(news: data)));
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    shadowColor: Colors.blue,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    'Read More...',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                        Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.zero,
+                          height: 10,
+                          color: Colors.grey[300],
+                        ),
+                        const SizedBox(
+                          height: 50,
                         ),
                       ]);
                 },

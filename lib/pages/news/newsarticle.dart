@@ -6,55 +6,32 @@ Module: 1.0
 Date Created: 5-31-2022
 */
 
-// ignore_for_file: prefer_const_constructors_in_immutables
+// ignore_for_file: prefer_const_constructors_in_immutables, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:async';
-import 'dart:convert';
-import 'package:elearning_portal/model/schooldirct.dart';
+import 'package:elearning_portal/model/news.dart';
 
-class Directory extends StatefulWidget {
-  final SchoolDirct? dirct;
-  // ignore: use_key_in_widget_constructors
-  Directory({this.dirct});
+class NewsArticle extends StatefulWidget {
+  final News? news;
+
+  NewsArticle({this.news});
 
   @override
-  DirectoryState createState() => DirectoryState();
+  _NewsArticleState createState() => _NewsArticleState();
 }
 
-class DirectoryState extends State<Directory> {
-  Future<List<SchoolDirct>>? dirct;
-  final dirctListKey = GlobalKey<DirectoryState>();
-
-  @override
-  void initState() {
-    super.initState();
-    dirct = getDirct();
-  }
-
-  Future<List<SchoolDirct>> getDirct() async {
-    var url =
-        'https://elearningmarikina.ph/web_mobile/API/ver_1.0.0/schools_directory.php';
-    http.Response response = await http.get(Uri.parse(url));
-    final items = json.decode(response.body).cast<Map<String, dynamic>>();
-    List<SchoolDirct> dirct = items.map<SchoolDirct>((json) {
-      return SchoolDirct.fromJson(json);
-    }).toList();
-
-    return dirct;
-  }
-
+class _NewsArticleState extends State<NewsArticle> {
   @override
   Widget build(BuildContext context) {
+    widget.news!.nid.toString();
     return Scaffold(
-      backgroundColor: Colors.white,
-      key: dirctListKey,
       appBar: AppBar(
         leadingWidth: 25,
         title: const Text(
-          'Schools Directory',
-          style: TextStyle(fontSize: 18),
+          'News Article',
+          style: TextStyle(
+            fontSize: 18,
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -120,13 +97,13 @@ class DirectoryState extends State<Directory> {
                         children: const <Widget>[
                           Icon(
                             Icons.event_note,
-                            color: Colors.blue,
+                            color: Colors.black54,
                             size: 30,
                           ),
                           Text(
                             'Directory',
                             style: TextStyle(
-                              color: Colors.blue,
+                              color: Colors.black54,
                               fontSize: 12,
                             ),
                           ),
@@ -207,84 +184,63 @@ class DirectoryState extends State<Directory> {
           ],
         ),
       ),
-      body: Center(
-        child: FutureBuilder<List<SchoolDirct>>(
-          future: dirct,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (!snapshot.hasData) {
-              return const CircularProgressIndicator();
-            } else {
-              return ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  var data = snapshot.data![index];
-                  var sl = data.sl;
-                  return Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Column(children: [
-                                Container(
-                                  padding: EdgeInsets.zero,
-                                  width: 50,
-                                  height: 50,
-                                  child: Image.network(
-                                    'https://www.elearningmarikina.ph/web_mobile/images/school_logo/$sl',
-                                  ),
-                                ),
-                              ]),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Column(children: [
-                                Container(
-                                  width: 280,
-                                  padding: EdgeInsets.zero,
-                                  child: Text(
-                                    data.school,
-                                    textAlign: TextAlign.left,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.black54,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: 280,
-                                  padding: EdgeInsets.zero,
-                                  child: Text(
-                                    data.phone,
-                                    textAlign: TextAlign.left,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontStyle: FontStyle.italic,
-                                      color: Colors.black45,
-                                    ),
-                                  ),
-                                ),
-                              ]),
-                            ],
-                          ),
-                        ),
-                        const Divider(
-                          height: 0,
-                          color: Colors.grey,
-                        ),
-                      ]);
-                },
-              );
-            }
-          },
+      body: ListView(children: [
+        Container(
+          padding: const EdgeInsets.all(10),
+          child: Text(
+            widget.news!.dateposted,
+            textAlign: TextAlign.left,
+            style: const TextStyle(
+              fontSize: 12,
+              color: Colors.grey,
+            ),
+          ),
         ),
-      ),
+        Container(
+          padding: const EdgeInsets.all(10),
+          child: Text(
+            widget.news!.newstitle,
+            textAlign: TextAlign.left,
+            style: const TextStyle(
+              fontSize: 16,
+              color: Colors.blue,
+            ),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.all(0),
+          child: Image.network(
+            'https://www.elearningmarikina.ph/web_mobile/images/news/${widget.news!.pic}',
+            fit: BoxFit.fitHeight,
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.all(10),
+          child: Text(
+            widget.news!.author,
+            textAlign: TextAlign.left,
+            style: const TextStyle(
+              fontSize: 12,
+              color: Colors.grey,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.all(10),
+          child: Text(
+            widget.news!.newscontent,
+            textAlign: TextAlign.left,
+            style: const TextStyle(
+              fontSize: 14,
+              color: Colors.black54,
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 50,
+        ),
+      ]),
     );
   }
 }

@@ -30,6 +30,8 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^0.13.4
+  fluttertoast: ^8.0.9
+  flutter_html: ^2.2.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -56,8 +58,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - lib/assets/Banner.png
-    - lib/assets/sdo-elearning-logo.png
+    - lib/assets/images/Banner.png
+    - lib/assets/images/eLp-app-logo.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
@@ -74,17 +76,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: lib/assets/fonts/Roboto-Regular.ttf
+        - asset: lib/assets/fonts/Roboto-Italic.ttf
+          style: italic
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

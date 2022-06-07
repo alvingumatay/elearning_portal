@@ -1,14 +1,23 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors_in_immutables
+/*
+Title: DepED Marikina eLearning Program
+Author: Rio Conales (rioconales@gmail.com)
+Developer: DepED Marikina
+Module: 1.0
+Date Created: 5-31-2022
+*/
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:elearning_portal/model/news.dart';
-import 'package:elearning_portal/pages/newsarticle.dart';
+import 'package:elearning_portal/pages/news/newsarticle.dart';
+
+import 'login.dart';
 
 class Home extends StatefulWidget {
   final News? news;
+  // ignore: prefer_const_constructors_in_immutables, use_key_in_widget_constructors
   Home({this.news});
 
   @override
@@ -25,18 +34,8 @@ class HomeState extends State<Home> {
     news = getNewsList();
   }
 
-  Future likeNews() async {
-    await http.post(
-        (Uri.parse("https://elearningmarikina.ph/Apps/likenews.php")),
-        body: {
-          'nid': widget.news!.nid.toString(),
-        });
-    Navigator.of(context)
-        .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
-  }
-
   Future<List<News>> getNewsList() async {
-    var url = 'https://elearningmarikina.ph/Apps/news.php';
+    var url = 'https://elearningmarikina.ph/web_mobile/API/ver_1.0.0/news.php';
     http.Response response = await http.get(Uri.parse(url));
     final items = json.decode(response.body).cast<Map<String, dynamic>>();
     List<News> news = items.map<News>((json) {
@@ -49,41 +48,173 @@ class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       key: newsListKey,
       appBar: AppBar(
+        centerTitle: true,
         leadingWidth: 25,
         title: const Text(
           'SDO Marikina eLearning Program',
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 18,
           ),
         ),
       ),
-      bottomNavigationBar: const BottomAppBar(
-        child: ListTile(
-          contentPadding: EdgeInsets.all(0),
-          tileColor: Color.fromARGB(255, 235, 235, 235),
-          title: Text(
-            '© 2022 Schools Division Office - Marikina City. All Rights Reserved.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.grey,
-              fontWeight: FontWeight.normal,
-              fontSize: 12,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.home),
+        backgroundColor: Colors.blue,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 6,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Builder(
+              builder: (context) => SizedBox.fromSize(
+                size: const Size(60, 70),
+                child: ClipRect(
+                  child: Material(
+                    color: Colors.white,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/history');
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const <Widget>[
+                          Icon(
+                            Icons.info,
+                            color: Colors.black54,
+                            size: 30,
+                          ),
+                          Text(
+                            'About Us',
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
-          ),
+            Builder(
+              builder: (context) => SizedBox.fromSize(
+                size: const Size(60, 70),
+                child: ClipRect(
+                  child: Material(
+                    color: Colors.white,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/directory');
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const <Widget>[
+                          Icon(
+                            Icons.event_note,
+                            color: Colors.black54,
+                            size: 30,
+                          ),
+                          Text(
+                            'Directory',
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 30,
+            ),
+            Builder(
+              builder: (context) => SizedBox.fromSize(
+                size: const Size(60, 70),
+                child: ClipRect(
+                  child: Material(
+                    color: Colors.white,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/twg');
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const <Widget>[
+                          Icon(
+                            Icons.groups,
+                            color: Colors.black54,
+                            size: 30,
+                          ),
+                          Text(
+                            'TWG',
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Builder(
+              builder: (context) => SizedBox.fromSize(
+                size: const Size(60, 70),
+                child: ClipRect(
+                  child: Material(
+                    color: Colors.white,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/newsarchieve');
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const <Widget>[
+                          Icon(
+                            Icons.article,
+                            color: Colors.black54,
+                            size: 30,
+                          ),
+                          Text(
+                            'News',
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
       body: ListView(children: <Widget>[
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Container(
-            padding: EdgeInsets.zero,
-            child: Image.asset(
-              'lib/assets/Banner.png',
-              fit: BoxFit.fitWidth,
-            ),
+        Container(
+          padding: EdgeInsets.zero,
+          child: Image.asset(
+            'lib/assets/images/Banner.png',
+            fit: BoxFit.fill,
           ),
         ),
         Container(
@@ -96,9 +227,15 @@ class HomeState extends State<Home> {
               style: TextStyle(fontSize: 15),
             ),
             onPressed: () {
-              Navigator.pushNamed(context, '/login');
+              Navigator.pushReplacement<void, void>(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => Login(),
+                ),
+              );
             },
             style: ElevatedButton.styleFrom(
+              shadowColor: Colors.transparent,
               padding: const EdgeInsets.all(20),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50),
@@ -114,6 +251,7 @@ class HomeState extends State<Home> {
         ),
         Container(
           padding: const EdgeInsets.all(0),
+          color: Colors.white,
           child: ListTile(
             contentPadding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             title: const Text(
@@ -128,17 +266,20 @@ class HomeState extends State<Home> {
               onPressed: () {
                 Navigator.pushNamed(context, '/newsarchieve');
               },
-              child: const Text('More...'),
+              child: const Text(
+                'View More...',
+                style: TextStyle(color: Colors.blue),
+              ),
             ),
           ),
         ),
         const Divider(
-          height: 5,
-          color: Color.fromARGB(255, 217, 217, 217),
+          height: 0,
+          color: Colors.grey,
         ),
         Container(
           constraints: const BoxConstraints(
-            maxHeight: 350,
+            maxHeight: 400,
           ),
           padding: EdgeInsets.zero,
           color: Colors.white,
@@ -185,7 +326,7 @@ class HomeState extends State<Home> {
                                 Expanded(
                                   flex: 1,
                                   child: Image.network(
-                                    'https://www.elearningmarikina.ph/Apps/images/$pic',
+                                    'https://www.elearningmarikina.ph/web_mobile/images/news/thumbnails/$pic',
                                     height: 100,
                                     width: 100,
                                     fit: BoxFit.cover,
@@ -228,7 +369,7 @@ class HomeState extends State<Home> {
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                             child: Text(
                               getdata.newscontent,
                               overflow: TextOverflow.ellipsis,
@@ -240,115 +381,31 @@ class HomeState extends State<Home> {
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            height: 20,
-                          ),
                           Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: Column(children: const [
-                                    Text(
-                                      '75 Likes',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        color: Colors.blueGrey,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.zero,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  NewsArticle(news: getdata)));
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      shadowColor: Colors.blue,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
                                       ),
                                     ),
-                                  ]),
-                                ),
-                                Expanded(
-                                  flex: 2,
-                                  child: Column(children: const [
-                                    Text(
-                                      '68 Comments',
-                                      textAlign: TextAlign.left,
+                                    child: const Text(
+                                      'Read More...',
                                       style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.blueGrey,
+                                        fontSize: 14,
+                                        color: Colors.blue,
                                       ),
-                                    ),
-                                  ]),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Column(children: const [
-                                    Text(
-                                      '105 Views',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.blueGrey,
-                                      ),
-                                    ),
-                                  ]),
-                                ),
-                              ]),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                            child: const Divider(
-                              height: 5,
-                              color: Color.fromARGB(255, 217, 217, 217),
-                            ),
-                          ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                TextButton.icon(
-                                  onPressed: () => likeNews(),
-                                  icon: const Icon(
-                                    Icons.thumb_up,
-                                    size: 20,
-                                    color: Color.fromARGB(255, 78, 140, 191),
-                                  ),
-                                  label: const Text(
-                                    'Like',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Color.fromARGB(255, 78, 140, 191),
-                                    ),
-                                  ),
-                                ),
-                                TextButton.icon(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.comment,
-                                    size: 20,
-                                    color: Color.fromARGB(255, 78, 140, 191),
-                                  ),
-                                  label: const Text(
-                                    'Comment',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Color.fromARGB(255, 78, 140, 191),
-                                    ),
-                                  ),
-                                ),
-                                TextButton.icon(
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                NewsArticle(news: getdata)));
-                                  },
-                                  icon: const Icon(
-                                    Icons.visibility,
-                                    size: 20,
-                                    color: Color.fromARGB(255, 78, 140, 191),
-                                  ),
-                                  label: const Text(
-                                    'View',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Color.fromARGB(255, 78, 140, 191),
                                     ),
                                   ),
                                 ),
@@ -368,6 +425,7 @@ class HomeState extends State<Home> {
         ),
         Container(
           padding: const EdgeInsets.all(0),
+          color: Colors.white,
           child: const ListTile(
             contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
             title: Text(
@@ -381,11 +439,12 @@ class HomeState extends State<Home> {
           ),
         ),
         const Divider(
-          height: 5,
-          color: Color.fromARGB(255, 217, 217, 217),
+          height: 0,
+          color: Colors.grey,
         ),
         Container(
           padding: const EdgeInsets.all(10),
+          color: Colors.white,
           width: double.infinity,
           child: const Text(
             'The Division Office conducts continuous advocacy campaigns and programs to disseminate the information to the field and at the same time to attract future enrollees. The two implementing schools post tarpaulins of the eLearning program at their facade. The class advisers discuss the program to the parents during Parents - Teachers Conference (PTC) or in any event or activity of the school if given a chance.This is to sustain the enrollment and to ensure maximum participation of the stakeholders for the success of the eLearning program.',
@@ -398,6 +457,7 @@ class HomeState extends State<Home> {
         ),
         Container(
           padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+          color: Colors.white,
           width: double.infinity,
           child: const Text(
             'The administrators are looking for partners who believe in the project and who can help support the financial need of the program.',
@@ -410,6 +470,7 @@ class HomeState extends State<Home> {
         ),
         Container(
           padding: const EdgeInsets.fromLTRB(10, 5, 10, 15),
+          color: Colors.white,
           width: double.infinity,
           child: const Text(
             'This Office is looking forward to implement this program up to Senior High School.',
@@ -428,6 +489,7 @@ class HomeState extends State<Home> {
         ),
         Container(
           padding: const EdgeInsets.all(0),
+          color: Colors.white,
           child: const ListTile(
             contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
             title: Text(
@@ -441,11 +503,12 @@ class HomeState extends State<Home> {
           ),
         ),
         const Divider(
-          height: 5,
-          color: Color.fromARGB(255, 217, 217, 217),
+          height: 0,
+          color: Colors.grey,
         ),
         Container(
           padding: const EdgeInsets.fromLTRB(10, 15, 10, 10),
+          color: Colors.white,
           width: double.infinity,
           child: const Text(
             'The eLearning program:',
@@ -458,6 +521,7 @@ class HomeState extends State<Home> {
         ),
         const ListTile(
           contentPadding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+          tileColor: Colors.white,
           minLeadingWidth: 8,
           leading: Icon(
             Icons.circle,
@@ -470,6 +534,7 @@ class HomeState extends State<Home> {
         ),
         const ListTile(
           contentPadding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+          tileColor: Colors.white,
           minLeadingWidth: 8,
           leading: Icon(
             Icons.circle,
@@ -482,6 +547,7 @@ class HomeState extends State<Home> {
         ),
         const ListTile(
           contentPadding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+          tileColor: Colors.white,
           minLeadingWidth: 8,
           leading: Icon(
             Icons.circle,
@@ -494,6 +560,7 @@ class HomeState extends State<Home> {
         ),
         const ListTile(
           contentPadding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+          tileColor: Colors.white,
           minLeadingWidth: 8,
           leading: Icon(
             Icons.circle,
@@ -506,6 +573,7 @@ class HomeState extends State<Home> {
         ),
         const ListTile(
           contentPadding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+          tileColor: Colors.white,
           minLeadingWidth: 8,
           leading: Icon(
             Icons.circle,
@@ -518,6 +586,7 @@ class HomeState extends State<Home> {
         ),
         const ListTile(
           contentPadding: EdgeInsets.fromLTRB(30, 0, 10, 10),
+          tileColor: Colors.white,
           minLeadingWidth: 8,
           leading: Icon(
             Icons.circle,
@@ -536,6 +605,7 @@ class HomeState extends State<Home> {
         ),
         Container(
           padding: const EdgeInsets.all(0),
+          color: Colors.white,
           child: const ListTile(
             contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
             title: Text(
@@ -549,11 +619,12 @@ class HomeState extends State<Home> {
           ),
         ),
         const Divider(
-          height: 5,
-          color: Color.fromARGB(255, 217, 217, 217),
+          height: 0,
+          color: Colors.grey,
         ),
         Container(
           padding: const EdgeInsets.fromLTRB(10, 15, 10, 10),
+          color: Colors.white,
           width: double.infinity,
           child: const Text(
             'eLearning Enrollment Process',
@@ -566,6 +637,7 @@ class HomeState extends State<Home> {
         ),
         const ListTile(
           contentPadding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+          tileColor: Colors.white,
           minLeadingWidth: 8,
           leading: Icon(
             Icons.circle,
@@ -578,6 +650,7 @@ class HomeState extends State<Home> {
         ),
         const ListTile(
           contentPadding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+          tileColor: Colors.white,
           minLeadingWidth: 8,
           leading: Icon(
             Icons.circle,
@@ -590,6 +663,7 @@ class HomeState extends State<Home> {
         ),
         const ListTile(
           contentPadding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+          tileColor: Colors.white,
           minLeadingWidth: 8,
           leading: Icon(
             Icons.circle,
@@ -602,6 +676,7 @@ class HomeState extends State<Home> {
         ),
         const ListTile(
           contentPadding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+          tileColor: Colors.white,
           minLeadingWidth: 8,
           leading: Icon(
             Icons.circle,
@@ -622,6 +697,7 @@ class HomeState extends State<Home> {
           padding: const EdgeInsets.all(0),
           child: const ListTile(
             contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+            tileColor: Colors.white,
             title: Text(
               'Qualification and Retention',
               style: TextStyle(
@@ -633,11 +709,12 @@ class HomeState extends State<Home> {
           ),
         ),
         const Divider(
-          height: 5,
-          color: Color.fromARGB(255, 217, 217, 217),
+          height: 0,
+          color: Colors.grey,
         ),
         Container(
           padding: const EdgeInsets.fromLTRB(10, 15, 10, 10),
+          color: Colors.white,
           width: double.infinity,
           child: const Text(
             'Jesus Dela Peña National High School',
@@ -650,6 +727,7 @@ class HomeState extends State<Home> {
         ),
         const ListTile(
           contentPadding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+          tileColor: Colors.white,
           minLeadingWidth: 8,
           leading: Icon(
             Icons.circle,
@@ -662,6 +740,7 @@ class HomeState extends State<Home> {
         ),
         Container(
           padding: const EdgeInsets.fromLTRB(10, 15, 10, 10),
+          color: Colors.white,
           width: double.infinity,
           child: const Text(
             'Marikina Science High School',
@@ -674,6 +753,7 @@ class HomeState extends State<Home> {
         ),
         const ListTile(
           contentPadding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+          tileColor: Colors.white,
           minLeadingWidth: 8,
           leading: Icon(
             Icons.circle,
@@ -686,6 +766,7 @@ class HomeState extends State<Home> {
         ),
         const ListTile(
           contentPadding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+          tileColor: Colors.white,
           minLeadingWidth: 8,
           leading: Icon(
             Icons.circle,
@@ -698,6 +779,7 @@ class HomeState extends State<Home> {
         ),
         Container(
           padding: const EdgeInsets.fromLTRB(20, 15, 10, 10),
+          color: Colors.white,
           width: double.infinity,
           child: const Text(
             'Guidelines on Retention',
@@ -710,6 +792,7 @@ class HomeState extends State<Home> {
         ),
         const ListTile(
           contentPadding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+          tileColor: Colors.white,
           minLeadingWidth: 8,
           leading: Icon(
             Icons.circle,
@@ -722,6 +805,7 @@ class HomeState extends State<Home> {
         ),
         const ListTile(
           contentPadding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+          tileColor: Colors.white,
           minLeadingWidth: 8,
           leading: Icon(
             Icons.circle,
@@ -738,200 +822,11 @@ class HomeState extends State<Home> {
           height: 10,
           color: Colors.grey[300],
         ),
-      ]),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const SizedBox(
-              height: 100,
-              width: double.infinity,
-              child: DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Text(
-                  'Menu',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.fromLTRB(5, 10, 10, 0),
-              child: (TextButton.icon(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.info,
-                  color: Colors.blueAccent,
-                ),
-                label: const Text('About Us'),
-              )),
-            ),
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 40),
-              horizontalTitleGap: 8,
-              minLeadingWidth: 8,
-              title: const Text(
-                'History',
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              leading: const Icon(Icons.history),
-              onTap: () {
-                Navigator.pushNamed(context, '/history');
-              },
-            ),
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 40),
-              horizontalTitleGap: 8,
-              minLeadingWidth: 8,
-              title: const Text(
-                'eTeachers',
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              leading: const Icon(Icons.groups),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 40),
-              horizontalTitleGap: 8,
-              minLeadingWidth: 8,
-              title: const Text(
-                'Facilities',
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              leading: const Icon(Icons.room_preferences),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 40),
-              horizontalTitleGap: 8,
-              minLeadingWidth: 8,
-              title: const Text(
-                'eLearning Structure',
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              leading: const Icon(Icons.schema),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 40),
-              horizontalTitleGap: 8,
-              minLeadingWidth: 8,
-              title: const Text(
-                'Technical Working Group',
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              leading: const Icon(Icons.groups),
-              onTap: () {
-                Navigator.pushNamed(context, '/twg');
-              },
-            ),
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 40),
-              horizontalTitleGap: 8,
-              minLeadingWidth: 8,
-              title: const Text(
-                'Vision, Mission, Core Values and Mandates',
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              leading: const Icon(Icons.emoji_objects),
-              onTap: () {
-                Navigator.pushNamed(context, '/vmcm');
-              },
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const Divider(
-              height: 5,
-              color: Color.fromARGB(255, 217, 217, 217),
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
-              child: (TextButton.icon(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/directory');
-                },
-                icon: const Icon(
-                  Icons.phone,
-                  color: Colors.blueAccent,
-                ),
-                label: const Text('Schools Directory'),
-              )),
-            ),
-            const Divider(
-              height: 5,
-              color: Color.fromARGB(255, 217, 217, 217),
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
-              child: (TextButton.icon(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/other_resources');
-                },
-                icon: const Icon(
-                  Icons.folder,
-                  color: Colors.blueAccent,
-                ),
-                label: const Text('Other Resources'),
-              )),
-            ),
-            const Divider(
-              height: 5,
-              color: Color.fromARGB(255, 217, 217, 217),
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
-              child: (TextButton.icon(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/newsarchieve');
-                },
-                icon: const Icon(
-                  Icons.archive,
-                  color: Colors.blueAccent,
-                ),
-                label: const Text('News Archieves'),
-              )),
-            ),
-            const Divider(
-              height: 5,
-              color: Color.fromARGB(255, 217, 217, 217),
-            ),
-          ],
+        Container(
+          color: Colors.white,
+          height: 50,
         ),
-      ),
+      ]),
     );
   }
 }

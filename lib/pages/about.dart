@@ -5,17 +5,16 @@ Developer: DepED Marikina
 Module: 1.0
 Date Created: 5-31-2022
 */
-
 import 'package:flutter/material.dart';
 
-class History extends StatefulWidget {
-  const History({Key? key}) : super(key: key);
+class About extends StatefulWidget {
+  const About({Key? key}) : super(key: key);
 
   @override
-  State<History> createState() => _HistoryState();
+  State<About> createState() => _AboutState();
 }
 
-class _HistoryState extends State<History> {
+class _AboutState extends State<About> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +27,7 @@ class _HistoryState extends State<History> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/');
+          Navigator.pop(context, '/');
         },
         child: const Icon(Icons.home),
         backgroundColor: Colors.black54,
@@ -38,43 +37,140 @@ class _HistoryState extends State<History> {
         shape: const CircularNotchedRectangle(),
         notchMargin: 6,
         child: Row(
-          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.info),
-              color: Colors.blue,
-              iconSize: 35,
-              onPressed: () {
-                Navigator.pushNamed(context, '/history');
-              },
+            Builder(
+              builder: (context) => SizedBox.fromSize(
+                size: const Size(60, 70),
+                child: ClipRect(
+                  child: Material(
+                    color: Colors.white,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/history');
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const <Widget>[
+                          Icon(
+                            Icons.info,
+                            color: Colors.blue,
+                            size: 30,
+                          ),
+                          Text(
+                            'About Us',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
-            IconButton(
-              icon: const Icon(Icons.event_note),
-              color: Colors.black54,
-              iconSize: 35,
-              onPressed: () {
-                Navigator.pushNamed(context, '/directory');
-              },
+            Builder(
+              builder: (context) => SizedBox.fromSize(
+                size: const Size(60, 70),
+                child: ClipRect(
+                  child: Material(
+                    color: Colors.white,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/directory');
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const <Widget>[
+                          Icon(
+                            Icons.event_note,
+                            color: Colors.black54,
+                            size: 30,
+                          ),
+                          Text(
+                            'Directory',
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
             const SizedBox(
-              width: 50,
+              width: 30,
             ),
-            IconButton(
-              icon: const Icon(Icons.groups),
-              color: Colors.black54,
-              iconSize: 35,
-              onPressed: () {
-                Navigator.pushNamed(context, '/twg');
-              },
+            Builder(
+              builder: (context) => SizedBox.fromSize(
+                size: const Size(60, 70),
+                child: ClipRect(
+                  child: Material(
+                    color: Colors.white,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/twg');
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const <Widget>[
+                          Icon(
+                            Icons.groups,
+                            color: Colors.black54,
+                            size: 30,
+                          ),
+                          Text(
+                            'TWG',
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
-            IconButton(
-              icon: const Icon(Icons.article),
-              color: Colors.black54,
-              iconSize: 35,
-              onPressed: () {
-                Navigator.pushNamed(context, '/newsarchieve');
-              },
+            Builder(
+              builder: (context) => SizedBox.fromSize(
+                size: const Size(60, 70),
+                child: ClipRect(
+                  child: Material(
+                    color: Colors.white,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/newsarchieve');
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const <Widget>[
+                          Icon(
+                            Icons.article,
+                            color: Colors.black54,
+                            size: 30,
+                          ),
+                          Text(
+                            'News',
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -472,6 +568,29 @@ class _HistoryState extends State<History> {
                   'The Department of Education (DepEd) formulates, implements, and coordinates policies, plans, programs and projects in the areas of formal and non-formal basic education. It supervises all elementary and secondary education institutions, including alternative learning systems, both public and private; and provides for the establishment and maintenance of a complete, adequate, and integrated system of basic education relevant to the goals of national development.',
                   style: TextStyle(color: Colors.black, fontSize: 14),
                   textAlign: TextAlign.justify),
+            ),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.zero,
+              height: 10,
+              color: Colors.grey[300],
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              child: const Text(
+                'eLearning Program Structure',
+                style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(0),
+              child: Image.network(
+                'https://www.elearningmarikina.ph/web_mobile/images/eLearning-Structure.jpg',
+                fit: BoxFit.fitHeight,
+              ),
             ),
             Container(
               width: double.infinity,

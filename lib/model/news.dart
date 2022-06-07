@@ -1,3 +1,11 @@
+/*
+Title: DepED Marikina eLearning Program
+Author: Rio Conales (rioconales@gmail.com)
+Developer: DepED Marikina
+Module: 1.0
+Date Created: 5-31-2022
+*/
+
 class News {
   final String nid;
   final String newstitle;
@@ -30,6 +38,6 @@ class News {
         'author': author,
         'newscontent': newscontent,
         'dateposted': dateposted,
-        'name': pic,
+        'pic': pic,
       };
 }

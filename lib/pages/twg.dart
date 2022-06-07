@@ -1,3 +1,11 @@
+/*
+Title: DepED Marikina eLearning Program
+Author: Rio Conales (rioconales@gmail.com) and Esmeraldo Marin (esmeraldomarinjr@gmail.com)
+Developer: DepED Marikina
+Module: 1.0
+Date Created: 5-31-2022
+*/
+
 import 'package:flutter/material.dart';
 
 class TWG extends StatefulWidget {
@@ -11,11 +19,162 @@ class _TWGState extends State<TWG> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         leadingWidth: 25,
         title: const Text(
-          'SDO Marikina eLearning Program',
-          style: TextStyle(fontSize: 16),
+          'Technical Working Group',
+          style: TextStyle(fontSize: 18),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pop(context, '/');
+        },
+        child: const Icon(Icons.home),
+        backgroundColor: Colors.black54,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 6,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Builder(
+              builder: (context) => SizedBox.fromSize(
+                size: const Size(60, 70),
+                child: ClipRect(
+                  child: Material(
+                    color: Colors.white,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/history');
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const <Widget>[
+                          Icon(
+                            Icons.info,
+                            color: Colors.black54,
+                            size: 30,
+                          ),
+                          Text(
+                            'About Us',
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Builder(
+              builder: (context) => SizedBox.fromSize(
+                size: const Size(60, 70),
+                child: ClipRect(
+                  child: Material(
+                    color: Colors.white,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/directory');
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const <Widget>[
+                          Icon(
+                            Icons.event_note,
+                            color: Colors.black54,
+                            size: 30,
+                          ),
+                          Text(
+                            'Directory',
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 30,
+            ),
+            Builder(
+              builder: (context) => SizedBox.fromSize(
+                size: const Size(60, 60),
+                child: ClipRect(
+                  child: Material(
+                    color: Colors.white,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/twg');
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const <Widget>[
+                          Icon(
+                            Icons.groups,
+                            color: Colors.blue,
+                            size: 30,
+                          ),
+                          Text(
+                            'TWG',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Builder(
+              builder: (context) => SizedBox.fromSize(
+                size: const Size(60, 60),
+                child: ClipRect(
+                  child: Material(
+                    color: Colors.white,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/newsarchieve');
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const <Widget>[
+                          Icon(
+                            Icons.article,
+                            color: Colors.black54,
+                            size: 30,
+                          ),
+                          Text(
+                            'News',
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
       body: Center(
@@ -248,7 +407,7 @@ class _TWGState extends State<TWG> {
             Container(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: const Text(
-                'Jesus Dela Pena National High School',
+                'Jesus Dela Peña National High School',
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
@@ -1082,6 +1241,10 @@ class _TWGState extends State<TWG> {
                     fontStyle: FontStyle.italic,
                     fontSize: 12),
               ),
+            ),
+            Container(
+              color: Colors.white,
+              height: 50,
             ),
           ],
         ),
